@@ -1,0 +1,68 @@
+[global]
+#Путь для бэкапов
+repo1-path=/pgbackrest
+#Сколько копий хранить
+repo1-retention-full=2
+#Тип хранения полных копий, по времени или по счёту
+#repo-retention-full-type=count
+#Параллельные процессы
+process-max=4 
+#Сжатие
+compress-level=3
+compress-type=zst
+#Шифрование
+repo1-cipher-pass=8jQn9QC0tqRpVdrsYEvbMepIFB56SUOJpzHqbIP859VoJo02LZ07DrahGioWTvt+
+repo1-cipher-type=aes-256-cbc
+#Логирование
+log-level-console=error
+log-level-file=warn
+log-level-stderr=warn
+#log-path=/pgbackrest/logs
+#Настройка буфера. Более 4МЬ нет смысла. Офф форум
+buffer-size=16M
+#Настройка если требуется бэкапить с реплики. Должна быть настроена и на мастере и на реплике
+#backup-standby=y
+#Если требуется включить wal вместе с полной резервной копией
+#archive-copy=y
+
+#Копии и восстановление на основе checksum
+delta=y
+
+#Настройка требуется для того чтобы включить РК с реплики. Должна быть везде и на мастере и на реплике
+#backup-standby=y
+
+######################
+#Spool async wal 
+
+#Путь где храняться временные файлы. Требуется чтобы находился в тоже же ФС что и БД
+#spool-path=/database/spool_pgbackrest
+#Активация асинхронного режима приема\передачи wal
+#archive-async=y
+#archive-get-queue-max=4GiB
+#archive-push-queue-max=1GB
+#archive-timeout=300
+
+############################
+#S3 конфигурация
+#repo1-type=s3
+#repo1-storage-host=10.5.45.41
+#repo1-storage-port=443
+#repo1-storage-ca-file=/usr/local/share/ca-certificates/public.crt
+#repo1-s3-uri-style=path
+#repo1-s3-endpoint=10.5.45.41
+#repo1-s3-bucket=pg-backup
+#repo1-s3-key=user
+#repo1-s3-key-secret=user12345
+#repo1-s3-region=eu-west-3
+#repo1-s3-verify-tls=n
+#repo1-path=/
+
+
+[test]
+#Путь к дата файлам
+pg1-path=/var/lib/pgsql/14/data
+#pg1-host=localhost
+#Начать немедленно
+start-fast=y
+#Сделать меньше файлов в бэкапе. Полезно для 1С например.
+repo1-bundle=y

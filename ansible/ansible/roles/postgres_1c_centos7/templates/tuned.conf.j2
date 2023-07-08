@@ -1,0 +1,41 @@
+[main]
+summary=1C Performance Configuration
+
+[bootloader]
+cmdline=transparent_hugepage=never
+
+[cpu]
+governor=performance
+energy_perf_bias=performance
+min_perf_pct=100
+
+[sysctl]
+# Turn off swapping
+vm.swappiness = 1
+# pdflush tuning to prevent lag spikes
+
+vm.dirty_expire_centisecs = 500
+vm.dirty_writeback_centisecs = 250
+vm.dirty_ratio = 10
+vm.dirty_background_ratio = 3
+vm.overcommit_memory = 0
+
+# Controls IP packet forwarding
+net.ipv4.ip_forward = 0
+net.ipv4.tcp_timestamps = 0
+
+fs.file-max=65535
+
+# Turned off to provide more CPU to PostgreSQL
+kernel.sched_autogroup_enabled=0
+
+# Turn off the NUMA local pages reclaim
+vm.zone_reclaim_mode=0
+
+#ipv6 disable
+net.ipv6.conf.all.disable_ipv6 = 1
+
+
+
+[vm]
+transparent_hugepages=never

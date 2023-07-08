@@ -1,0 +1,17 @@
+---
+
+- name: Создать пользователя maxim
+  postgresql_user:
+    name: maxim
+    password: "maxim"
+    role_attr_flags: SUPERUSER
+  environment:
+    PGOPTIONS: "-c password_encryption=scram-sha-256"
+
+- name: Отозвать привилегии роли public в схеме public
+  postgresql_privs:
+    db: template1
+    state: absent
+    privs: CREATE
+    objs: ALL_IN_SCHEMA
+    role: PUBLIC
