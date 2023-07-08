@@ -1,0 +1,55 @@
+---
+
+- name: Установка пакетов
+  yum:
+    name:
+      - "pgbackrest"
+      - "perl"
+      - "nfs-utils"
+#      - "postgresql{{postgresql_version}}-libs"
+    state: present
+
+- name: Создание директорий
+  file:
+    path: '/backup/{{ item.path }}'
+    state: directory
+    mode: '700'
+    owner: postgres
+    group: postgres
+  loop:
+    - { path: full }
+    - { path: logs }
+    - { path: wal }
+
+- name: Создание директорий
+  file:
+    path: '/pgbackrest'
+    state: directory
+    mode: '700'
+    owner: postgres
+    group: postgres
+
+- name: Создание директорий
+  file:
+    path: '/tmp/pgbackrest'
+    state: directory
+    mode: '700'
+    owner: postgres
+    group: postgres
+
+- name: Удалить файл конфигурации pgbackrest.conf
+  file:
+    path: /etc/pgbackrest.conf
+    state: absent
+
+- name: Добавить файл конфигурации pgbackrest.conf
+  template:
+    src: templates/pgbackrest.conf.j2
+    dest: /etc/pgbackrest.conf
+    mode: '644'
+    owner: postgres
+    group: postgres
+
+
+
+

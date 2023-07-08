@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    postgresql_version: 14
+    hostname: "{{ ansible_nodename }}"
+    autovacuum_max_workers: "{{ ansible_processor_vcpus/2 | int }}"
+    PGDATA_path: /var/lib/pgsql/{{ postgresql_version }}/data
+    stanza: test    # Как будет называться бэкап
+    process_max: "{{ ansible_processor_vcpus/4 | int }}"
+
+  roles:
+    - pgbackrest
+
